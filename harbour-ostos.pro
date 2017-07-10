@@ -17,6 +17,8 @@ CONFIG += sailfishapp
 SOURCES += src/harbour-ostos.cpp \
     src/Filester.cpp
 
+QT += sql
+
 OTHER_FILES += qml/harbour-ostos.qml \
     qml/cover/CoverPage.qml \
     rpm/harbour-ostos.changes.in \
@@ -48,8 +50,10 @@ OTHER_FILES += qml/harbour-ostos.qml \
 CONFIG += sailfishapp_i18n
 
 TRANSLATIONS += translations/harbour-ostos-fi.ts
+TRANSLATIONS += translations/harbour-ostos-sv.ts
 TRANSLATIONS += translations/harbour-ostos-de.ts
 TRANSLATIONS += translations/harbour-ostos-es.ts
+TRANSLATIONS += translations/harbour-ostos-fr.ts
 
 RESOURCES += \
     resources.qrc
@@ -78,7 +82,21 @@ DISTFILES += \
     LICENSE.txt \
     COPYING \
     icons/128x128/harbour-ostos.png \
-    icons/256x256/harbour-ostos.png
+    icons/256x256/harbour-ostos.png \
+    translations/harbour-ostos-fr.ts \
+    translations/harbour-ostos-de.ts \
+    translations/harbour-ostos-es.ts \
+    translations/harbour-ostos-fi.ts \
+    translations/harbour-ostos-sv.ts \
+    translations/harbour-ostos.ts \
+    qml/pages/FilterPage.qml \
+    qml/pages/SpecialButton.qml \
+    qml/export.js \
+    translations/harbour-ostos-fr.ts \
+    qml/pages/BackupDialog.qml \
+    qml/pages/CacFileSelect.qml \
+    qml/pages/CacFileSelect.qml.README \
+    qml/pages/CacFileSelect.qml.LICENCE
 
 SAILFISHAPP_ICONS += 86x86 108x108 128x128 256x256
 
@@ -86,3 +104,8 @@ DISTFILES += icons/86x86/harbour-ostos.png \
     icons/108x108/harbour-ostos.png \
     icons/128x108/harbour-ostos.png \
     icons/256x108/harbour-ostos.png
+
+DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
+
+HEADERS += \
+    src/filester.h

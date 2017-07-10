@@ -21,6 +21,7 @@ import Sailfish.Silica 1.0
 import QtQuick.LocalStorage 2.0
 import "pages"
 import "./dbaccess.js" as DBA
+import harbour.ostos.Filester 1.0
 
 ApplicationWindow
 {
@@ -30,17 +31,26 @@ ApplicationWindow
     // Global context
     property int currIndex // a global for current shoppingListModel index, passed around
     property string currShop // DBA.unknownShop is the string value for an unassigned shop
-
+    property variant shopFilter: [wildcard]
     // constants
     property string wildcard: "*"
+    property bool shopFilterAutoResetEnabled: true
+    property string filterdesc:"*"
 
-    property int refreshInterval: 900
-    property bool webHelpEnabled: false
+    // Settings, their limits and default values
+    property int minRefreshInterval: 0
+    property int maxRefreshInterval: 6000
+    property int defaultRefreshInterval: 0
+    property int setting_refreshInterval: defaultRefreshInterval
+    property bool setting_webHelpEnabled: false
+    property bool setting_sectionHeadersEnabled: false
+    property bool setting_orderingByClassEnable:true
 
-    // Declared here to be accessible thru appWindow.
+    // Declared here to be accessible thru appWindow.    
 
     ListModel {
         id: shoppingListModel
+        property bool updating: false
     }
 
     ListModel {
@@ -49,10 +59,14 @@ ApplicationWindow
 
     ListModel {
         id: shopModel
+        // Structure defined implcitly in dbaccess.js
+        // in function repopulateShopList()
+        // as: {"checked:<true/false>, "name":<string>,"edittext":<string>}
     }
 
     // Using Componentized declarations seem to reduce Silica Util.js:38
     // Errors (parent Null) - so the Component is the parent
+
 
     Component {
         id: listView
@@ -62,6 +76,12 @@ ApplicationWindow
         id: itemeditflick
         SilicaFlickable {}
     }
+
+    Component {
+        id: filterPage
+        FilterPage {}
+    }
+
     Component {
         id: firstPage
         FirstPage {}
@@ -83,6 +103,12 @@ ApplicationWindow
     Component {
         id: settingsPage
         SettingsPage {}
+    }
+
+    /** This is a ListView without any content, full of emptiness */
+    Component {
+        id: nilvue
+        ListView { id: nillistview }
     }
 
     // Back to normal business, the ApplicationWindow's pointer to start
@@ -115,84 +141,110 @@ ApplicationWindow
         console.log("harbour-ostos started")
         DBA.initDatabase(); // plug in localstorage
         currShop = wildcard
+        shopFilter = [wildcard]
+        // Read in refault settings from database
+        readSettings()
+    }
+
+    function readSettings() {
+        var d=new String(DBA.getSetting("refresh-delay"));
+        if(DBA.NO_SETTING==d) d=0;
+        setRefreshInterval(d.valueOf());
+
+        var h = new String(DBA.getSetting("section-headers-enable"))
+        if(DBA.NO_SETTING == h) h="false";
+        appWindow.setting_sectionHeadersEnabled = (h=="true") ? true : false
+        console.log("setting_sectionHeadersEnabled set to "+ setting_sectionHeadersEnabled)
+
+        var co = new String(DBA.getSetting("class-ordering-enable"))
+        if(DBA.NO_SETTING == co) co ="false";
+        setting_orderingByClassEnable = (co == "true") ? true : false;
+        console.log("setting_orderingByClassEnable set to:"+ setting_orderingByClassEnable)
+    }
+
+    function writeSettings() {
+        DBA.setSetting("refresh-delay", appWindow.setting_refreshInterval);  
+        DBA.setSetting("section-headers-enable",appWindow.setting_sectionHeadersEnabled);
+        DBA.setSetting("class-ordering-enable",setting_orderingByClassEnable)
     }
 
     function setRefreshInterval(millisec) {
-        if ((millisec >=0) && (millisec<=2000)){
-            refreshInterval = millisec
+        if (millisec>maxRefreshInterval){
+            setting_refreshInterval = maxRefreshInterval
+        } else if (millisec<minRefreshInterval) {
+            setting_refreshInterval = minRefreshInterval
         } else {
-            refreshInterval = 300
+            setting_refreshInterval = millisec
         }
     }
 
     //     This timer is used to refresh the shopping list in a separate thread.
     Timer {
         id: menurefreshtimer
-        interval: refreshInterval
+        interval: setting_refreshInterval
         repeat: false
 
-        property bool _enabler
-        property string _current
+        property string _trace
 
-        function turn_on(enabler,current) {
-            console.log("harbour-ostos refresh timer start")
-            //            console.debug("menurefreshtimer turn_on: enabler:"+enabler+" current:"+current)
-            _enabler=enabler
-            _current=current
-            start()
-            toast.show()
+        function turn_on(trace) {
+//            console.log("harbour-ostos refresh timer start")
+            //            console.debug("menurefreshtimer turn_on: current:"+current)
+            _trace=trace
+            start()            
         }
 
         onTriggered: {
 
             stop()
-            console.log("harbour-ostos refresh timer stop")
-            if(_enabler){
-                //                console.debug("menurefresh timer triggered.");
-                refreshShoppingListByCurrentShop()
+//            console.log("harbour-ostos refresh timer stop")
+            refreshShoppingListByCurrentShop()
 
-            } else {
-                //                console.debug("menurefresh timer triggered and skipped; trace:"+ _current);
-            }
-            toast.hide()
         }
     }
     /*
      * Function to request refresh - without timer
      */
-    function requestRefresh(enabler,tracetext) {
-        //        console.debug("harbour-ostos.requestRefresh : enabler: "+enabler+"; trace:'"+tracetext)
+    function requestRefresh(tracetext) {
+        console.debug("harbour-ostos.requestRefresh: trace:'"+tracetext)
         refreshShoppingListByCurrentShop()
     }
     /*
  * Function to request refresh asynchronously - the timer version spawning a new thread
  */
-    function requestRefreshAsync(enabler,tracetext) {
+    function requestRefreshAsync(tracetext) {
         // console.debug("harbour-ostos.requestRefreshAsync : enabler: "+enabler+"; trace:'"+tracetext+"'")
 
         if (!menurefreshtimer.running) {
-            menurefreshtimer.turn_on(enabler,tracetext)
+            menurefreshtimer.turn_on(tracetext)
         } else {
             menurefreshtimer.restart()
-            //            console.debug("harbour-ostos.requestRefresh - restarted timer.")
+            // console.debug("harbour-ostos.requestRefresh - restarted timer.")
         }
     }
 
     // This is for "painting" the first page
     function  refreshShoppingListByCurrentShop(){
-        if ((currShop==wildcard) || (!currShop) ) {
-            currShop=wildcard
-            shoppingListModel.clear()
-            DBA.readShoppingListExState(shoppingListModel,"HIDE");
-        } else {
-            shoppingListModel.clear()
-            DBA.readShoppingListByShopExState(shoppingListModel, currShop,"HIDE");
-        }
+        shoppingListModel.updating = true
+        shoppingListModel.clear()
+
+        DBA.readShoppingListFiltered(shoppingListModel,"HIDE",shopFilter,setting_orderingByClassEnable)
+//        console.log("built shopfilter="+DBA.buildshopfilter(shopFilter))
+
+//        if ((currShop==wildcard) || (!currShop) ) {
+//            currShop=wildcard
+//            shoppingListModel.clear()
+//            DBA.readShoppingListExState(shoppingListModel,"HIDE");
+//        } else {
+//            shoppingListModel.clear()
+//            DBA.readShoppingListByShopExState(shoppingListModel, currShop,"HIDE");
+//        }
+
+        shoppingListModel.updating = false
         //        console.log("By Current shopname="+currShop)
     }
 
-    // This is the small dark square to stop
-    // the user desperately waiting for the list update
+    // This is the small dark square to inform
+    // the user desperately waiting the list to update
     Rectangle {
         id: toast
 
@@ -234,13 +286,13 @@ ApplicationWindow
                     target: toast
                     properties: "height";
                     from: 0
-                    duration: 300
+                    duration: 0
                     easing.type: Easing.OutBack
                 }
                 PropertyAnimation {
                     target: toastLabel
                     properties: "font.pixelSize"
-                    duration: 300
+                    duration: 0
                     from:0
                     to: Theme.fontSizeMedium
                     easing.type: Easing.OutBack
@@ -256,13 +308,13 @@ ApplicationWindow
         }
 
         function show() {
-            //            console.log("***show toast")
+//            console.log("***show toast")
             visible=true
             state = "toasting"
         }
 
         function hide() {
-            //            console.log("***hide toast")
+//            console.log("***hide toast")
             visible=false
             state=""
 
@@ -273,6 +325,10 @@ ApplicationWindow
             state=""
         }
     } // end Rectangle
+
+    Filester {
+        id: theFilester
+    }
 }
 
 

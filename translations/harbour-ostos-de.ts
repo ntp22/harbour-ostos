@@ -2,22 +2,90 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de" sourcelanguage="en">
 <context>
+    <name>BackupDialog</name>
+    <message>
+        <source>Select backup source and destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source database file path and name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse and change source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination path:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse and select path to save to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to file name .csv</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set save path to SD card</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CacFileSelect</name>
+    <message>
+        <source>Select...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>Ostos</source>
-        <translation>Ostos - Einkaufswagen</translation>
+        <translation>Ostos - Warenkorb</translation>
+    </message>
+</context>
+<context>
+    <name>FilterPage</name>
+    <message>
+        <source>Accept</source>
+        <translation>Akzeptieren</translation>
+    </message>
+    <message>
+        <source>No shops</source>
+        <translation>Keine laden</translation>
+    </message>
+    <message>
+        <source>Add new shop</source>
+        <translation>Laden hinzufügen</translation>
+    </message>
+    <message>
+        <source>Undo edits</source>
+        <translation>Modifikationen wiederrufen</translation>
     </message>
 </context>
 <context>
     <name>FirstPage</name>
     <message>
-        <source>Shop</source>
-        <translatorcomment>wo kaufen</translatorcomment>
-        <translation>Laden</translation>
-    </message>
-    <message>
-        <source>No items</source>
-        <translation>Keine Artikel</translation>
+        <source>-</source>
+        <translation>-</translation>
     </message>
     <message>
         <source>Help</source>
@@ -33,15 +101,15 @@
     </message>
     <message>
         <source>Hide bought</source>
-        <translation>gekaufte verstecken</translation>
+        <translation>Verstecke gekaufte Artikeln</translation>
     </message>
     <message>
         <source>Search to buy</source>
-        <translation>Suchen und hinzufügen</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <source>Clearing</source>
-        <translation>Einkaufsliste wird geleert</translation>
+        <translation>Löschend</translation>
     </message>
 </context>
 <context>
@@ -58,10 +126,6 @@
         <translation>Akzeptieren</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Aufheben</translation>
-    </message>
-    <message>
         <source>Item Name</source>
         <translation>Artikelname</translation>
     </message>
@@ -75,7 +139,7 @@
     </message>
     <message>
         <source>Item Class</source>
-        <translation>Klasse</translation>
+        <translation>Kategorie</translation>
     </message>
     <message>
         <source>Shop</source>
@@ -115,44 +179,44 @@
         <translation>Hilfe</translation>
     </message>
     <message>
-        <source>Add new items by switching to search page on the right (on first item in the pulldown menu.
+        <source>Add new items by swithcing to search page on the right (on first item in the pulldown menu.
 </source>
-        <translation>Neue Artikel durch Wechsel nach rechts auf die Suchseite hinzufügen (erster Eintrag im Pulldown-Menü).</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The items have states, indicated by the icon on the left of each shopping list item.
 </source>
-        <translation>Die Artikel haben einen Status, der durch Icons links eines Eintrages angezeigt wird.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The state can be toggled like by clicking the state icon on the left.
 </source>
-        <translation>Der Staus kann durch Klick auf das Status-Icon gewechselt werden.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The context menu has options to hide, edit, flag</source>
-        <translation>Das Kontextmenü hat Optionen zum Verstecken, Bearbeiten und Markieren.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source> increase quantity, decrease quantity and delete the item.
 </source>
-        <translation>Menge erhöhen, Menge verringern und Artikel löschen.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add new items by swithcing to search page on the right on first item in the pulldown menu</source>
-        <translation>Neue Artikel durch Wechsel nach rechts auf die Suchseite hinzufügen (erster Eintrag im Pulldown-Menü).</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The item is listed as to buy</source>
-        <translation>Der Artikel ist zum Einkauf eingetragen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The item has been bought</source>
-        <translation>Der Artikel wurde eingekauft</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The item is listed as flagged (e.g. find later)</source>
-        <translation>Der Artikel ist markiert (z.B. zur Suche)</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -180,6 +244,18 @@
     <message>
         <source>Enable Help file read from Web and use of Google translator for unknown languages</source>
         <translation>Aktiviere die Nutzung des Internets für die Bedienungsanleitung. Google Translator hilft bei unbekannten Sprachen.</translation>
+    </message>
+    <message>
+        <source>Enable Class Section Headings in the Shoppinglist</source>
+        <translation>Kategorienüberschriften in der Einkaufsliste anzeigen</translation>
+    </message>
+    <message>
+        <source>Order shopping list also by class</source>
+        <translation>Die Einkaufsliste auch nach Kategorien sortieren</translation>
+    </message>
+    <message>
+        <source>Export Database as CSV</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -232,6 +308,7 @@
     </message>
     <message>
         <source></source>
+        <translatorcomment>Wenn es mach eine Aktualizierung</translatorcomment>
         <translation></translation>
     </message>
 </context>

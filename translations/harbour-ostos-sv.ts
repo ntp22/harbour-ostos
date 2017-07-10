@@ -2,6 +2,60 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="sv" sourcelanguage="en">
 <context>
+    <name>BackupDialog</name>
+    <message>
+        <source>Select backup source and destination</source>
+        <translation>Välj säkerhetskopians källa och målmapp</translation>
+    </message>
+    <message>
+        <source>Source database file path and name</source>
+        <translation>Källdatabasens sökväg och namn</translation>
+    </message>
+    <message>
+        <source>Browse and change source</source>
+        <translation>Bläddra och ändra källa</translation>
+    </message>
+    <message>
+        <source>Destination path:</source>
+        <translation>Målsökväg:</translation>
+    </message>
+    <message>
+        <source>Save to path</source>
+        <translation>Spara till mapp</translation>
+    </message>
+    <message>
+        <source>Browse and select path to save to</source>
+        <translation>Bläddra och välj mapp att spara i</translation>
+    </message>
+    <message>
+        <source>Destination file:</source>
+        <translation>Målfil:</translation>
+    </message>
+    <message>
+        <source>Save to file name .csv</source>
+        <translation>Spara som filnamn.csv</translation>
+    </message>
+    <message>
+        <source>Set save path to SD card</source>
+        <translation>Ange sökväg till SD-kort</translation>
+    </message>
+</context>
+<context>
+    <name>CacFileSelect</name>
+    <message>
+        <source>Select...</source>
+        <translation>Välj...</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Välj</translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>Ostos</source>
@@ -9,14 +63,29 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>FilterPage</name>
     <message>
-        <source>Shop</source>
-        <translation>Butik</translation>
+        <source>Accept</source>
+        <translation>Acceptera</translation>
     </message>
     <message>
-        <source>No items</source>
-        <translation>Inga objekt</translation>
+        <source>No shops</source>
+        <translation>Inga butiker</translation>
+    </message>
+    <message>
+        <source>Add new shop</source>
+        <translation>Lägg till ny butik</translation>
+    </message>
+    <message>
+        <source>Undo edits</source>
+        <translation>Ångra ändringar</translation>
+    </message>
+</context>
+<context>
+    <name>FirstPage</name>
+    <message>
+        <source>-</source>
+        <translation>-</translation>
     </message>
     <message>
         <source>Help</source>
@@ -32,15 +101,15 @@
     </message>
     <message>
         <source>Hide bought</source>
-        <translation>Dölj köpta objekt</translation>
+        <translation>Dölj köpta artiklar</translation>
     </message>
     <message>
         <source>Search to buy</source>
-        <translation>Sök i inköpslistan</translation>
+        <translation>Sök köpobjekt</translation>
     </message>
     <message>
         <source>Clearing</source>
-        <translation>Rensar</translation>
+        <translation>Rensar listan</translation>
     </message>
 </context>
 <context>
@@ -57,16 +126,12 @@
         <translation>Acceptera</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
         <source>Item Name</source>
-        <translation>Objektnamn</translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <source>Quantity</source>
-        <translation>Kvantitet</translation>
+        <translation>Mängd</translation>
     </message>
     <message>
         <source>Unit</source>
@@ -74,7 +139,7 @@
     </message>
     <message>
         <source>Item Class</source>
-        <translation>Objektklass</translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <source>Shop</source>
@@ -89,11 +154,11 @@
     <name>LineButtonsMenu</name>
     <message>
         <source>Hiding Item</source>
-        <translation>Döljer objekt</translation>
+        <translation>Döljer artikel</translation>
     </message>
     <message>
         <source>Deleting Item</source>
-        <translation>Tar bort objekt</translation>
+        <translation>Tar bort artikel</translation>
     </message>
 </context>
 <context>
@@ -116,46 +181,42 @@
     <message>
         <source>Add new items by swithcing to search page on the right (on first item in the pulldown menu.
 </source>
-        <translation>Lägg till nya objekt genom att växla till söksidan åt höger (första objektet i rullgardinsmenyn).
-</translation>
-    </message>
-    <message>
-        <source>The items have states, indicated by the icon on the left of each shopping list item.
-</source>
-        <translation>Objektens statusindikator är den lilla punktikonen på vänster sida om varje inköpsobjekt.
-</translation>
+        <translation>Lägg till nya artiklar genom att växla till söksidan åt höger (första menyposten i toppmenyn).</translation>
     </message>
     <message>
         <source>The state can be toggled like by clicking the state icon on the left.
 </source>
-        <translation>Status kan växlas genom att trycka på ikonen till vänster.
-</translation>
+        <translation>Status kan ändras med tryck på statusikonen på vänster sida.</translation>
     </message>
     <message>
         <source>The context menu has options to hide, edit, flag</source>
-        <translation>I kontextmenyn finns alternativ för att dölja, redigera, märka</translation>
+        <translation>Kontextmenyn har alternativ för att dölja, redigera och märka</translation>
+    </message>
+    <message>
+        <source>Add new items by swithcing to search page on the right on first item in the pulldown menu</source>
+        <translation>Lägg till nya artiklar genom att växla till söksidan åt höger, med första menyposten i toppmenyn</translation>
+    </message>
+    <message>
+        <source>The item is listed as to buy</source>
+        <translation>Artikeln är listad för att köpas</translation>
+    </message>
+    <message>
+        <source>The item has been bought</source>
+        <translation>Artikeln är köpt</translation>
+    </message>
+    <message>
+        <source>The item is listed as flagged (e.g. find later)</source>
+        <translation>Artikeln är flaggmärkt (t.ex. hitta senare)</translation>
+    </message>
+    <message>
+        <source>The items have states, indicated by the icon on the left of each shopping list item.
+</source>
+        <translation>Artiklar har statusmärkning, indikerat av ikon på vänster sida av varje köpobjekt</translation>
     </message>
     <message>
         <source> increase quantity, decrease quantity and delete the item.
 </source>
-        <translation>öka kvantitet, minska kvantitet och ta bort objekt.
-</translation>
-    </message>
-    <message>
-        <source>Add new items by swithcing to search page on the right on first item in the pulldown menu</source>
-        <translation>Lägg till nya objekt genom att växla till söksidan åt höger (första objektet i rullgardinsmenyn).</translation>
-    </message>
-    <message>
-        <source>The item is listed as to buy</source>
-        <translation>Detta objekt är listat för inköp</translation>
-    </message>
-    <message>
-        <source>The item has been bought</source>
-        <translation>Objektet är köpt</translation>
-    </message>
-    <message>
-        <source>The item is listed as flagged (e.g. find later)</source>
-        <translation>Objektet har listats som märkt (t.ex. köp senare)</translation>
+        <translation> öka mängden, minska mängden och ta bort artiklar.</translation>
     </message>
 </context>
 <context>
@@ -184,6 +245,18 @@
         <source>Enable Help file read from Web and use of Google translator for unknown languages</source>
         <translation>Aktivera online-hjälp och användning av Google translator för okända språk</translation>
     </message>
+    <message>
+        <source>Enable Class Section Headings in the Shoppinglist</source>
+        <translation>Aktivera kategorirubriker i inköpslistan</translation>
+    </message>
+    <message>
+        <source>Order shopping list also by class</source>
+        <translation>Sortera listan också efter kategori</translation>
+    </message>
+    <message>
+        <source>Export Database as CSV</source>
+        <translation>Exportera databas som CSV</translation>
+    </message>
 </context>
 <context>
     <name>ShopPage</name>
@@ -197,7 +270,7 @@
     </message>
     <message>
         <source>No items</source>
-        <translation>Inga objekt</translation>
+        <translation>Inga artiklar</translation>
     </message>
     <message>
         <source>Add new shop</source>
@@ -235,7 +308,7 @@
     </message>
     <message>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>

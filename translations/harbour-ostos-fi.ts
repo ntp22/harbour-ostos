@@ -2,6 +2,60 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fi_FI">
 <context>
+    <name>BackupDialog</name>
+    <message>
+        <source>Select backup source and destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source database file path and name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse and change source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination path:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse and select path to save to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to file name .csv</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set save path to SD card</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CacFileSelect</name>
+    <message>
+        <source>Select...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>Ostos</source>
@@ -9,14 +63,29 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>FilterPage</name>
     <message>
-        <source>Shop</source>
-        <translation>Kauppa</translation>
+        <source>Accept</source>
+        <translation>Hyväksy</translation>
     </message>
     <message>
-        <source>No items</source>
-        <translation>Ei artikkelita</translation>
+        <source>No shops</source>
+        <translation>Ei kauppoja</translation>
+    </message>
+    <message>
+        <source>Add new shop</source>
+        <translation>Lisää kauppa</translation>
+    </message>
+    <message>
+        <source>Undo edits</source>
+        <translation>Peruuta muokkaus</translation>
+    </message>
+</context>
+<context>
+    <name>FirstPage</name>
+    <message>
+        <source>-</source>
+        <translation>-</translation>
     </message>
     <message>
         <source>Help</source>
@@ -40,7 +109,7 @@
     </message>
     <message>
         <source>Clearing</source>
-        <translation>Ostoslista tyhjennetään</translation>
+        <translation>Tyhjennetään</translation>
     </message>
 </context>
 <context>
@@ -57,10 +126,6 @@
         <translation>Hyväksy</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Peruuta</translation>
-    </message>
-    <message>
         <source>Item Name</source>
         <translation>Artikkelin nimi</translation>
     </message>
@@ -70,10 +135,11 @@
     </message>
     <message>
         <source>Unit</source>
-        <translation>Yksikkö</translation>
+        <translation>yksikkö</translation>
     </message>
     <message>
         <source>Item Class</source>
+        <translatorcomment>Tavaraluokka,Luokittelu,Laji, kategoria</translatorcomment>
         <translation>Luokka</translation>
     </message>
     <message>
@@ -116,42 +182,42 @@
     <message>
         <source>Add new items by swithcing to search page on the right (on first item in the pulldown menu.
 </source>
-        <translation></translation>
+        <translation type="unfinished">Lisää uusia artikkeleja siirtyen hakusivulle pyyhkäisemällä vasemmalle</translation>
     </message>
     <message>
         <source>The items have states, indicated by the icon on the left of each shopping list item.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The state can be toggled like by clicking the state icon on the left.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The context menu has options to hide, edit, flag</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source> increase quantity, decrease quantity and delete the item.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add new items by swithcing to search page on the right on first item in the pulldown menu</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The item is listed as to buy</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The item has been bought</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The item is listed as flagged (e.g. find later)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -179,6 +245,18 @@
     <message>
         <source>Enable Help file read from Web and use of Google translator for unknown languages</source>
         <translation>Salli ohjeiden luku internet-yhteyden kautta sivulta, joka käyttää Google Translatoria tuntemattomille kielille</translation>
+    </message>
+    <message>
+        <source>Enable Class Section Headings in the Shoppinglist</source>
+        <translation>Artikkeliluokkien erottimet ostoslistassa</translation>
+    </message>
+    <message>
+        <source>Order shopping list also by class</source>
+        <translation>Järjestä lista myös artikkelien luokan mukaan</translation>
+    </message>
+    <message>
+        <source>Export Database as CSV</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

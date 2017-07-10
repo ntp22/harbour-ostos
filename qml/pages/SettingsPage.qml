@@ -12,7 +12,7 @@ import "../pages"
 
 Page {
     id: settingsPage
-
+    property string versionId: "v1.10-0"
     allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
 
     SilicaFlickable {
@@ -44,6 +44,16 @@ Page {
 
                 }
             }
+
+            MenuItem {
+                text: qsTr("Export Database as CSV")
+                onClicked: {
+                    var backupdialog = pageStack.push(Qt.resolvedUrl("BackupDialog.qml"))
+                    backupdialog.accepted.connect(function(){
+                        theFilester.saveDataBase()
+                    })
+                }
+            }
         }
         RemorsePopup { id: databaseTableDropRemorse }
 
@@ -70,24 +80,67 @@ Page {
             Slider {
                 id: refreshslider
                 width: parent.width
-                minimumValue: 0
-                maximumValue: 2000
+                minimumValue: appWindow.minRefreshInterval
+                maximumValue: appWindow.maxRefreshInterval
 
-                value: ((appWindow.refreshInterval >= minimumValue) && (appWindow.refreshInterval<=maximumValue))? appWindow.refreshInterval : 1250
+                value: appWindow.setting_refreshInterval
 
                 label: qsTr("List refresh interval")
                 valueText: Math.ceil(value) + " ms"
                 onValueChanged: {
-                    appWindow.setRefreshInterval(value)
+                    appWindow.setRefreshInterval(value.valueOf())
                 }
 
             }
             TextSwitch {
-                id: extHelpEnable
+                id: extHelpEna
                 text: qsTr("Enable WWW help")
                 description: qsTr("Enable Help file read from Web and use of Google translator for unknown languages")
+                checked: appWindow.setting_webHelpEnabled
 
-                onCheckedChanged: appWindow.webHelpEnabled = checked
+                onClicked: {
+                    appWindow.setting_webHelpEnabled = !appWindow.setting_webHelpEnabled
+                }
+            }
+
+            TextSwitch {
+                id: sectionEna
+                text:qsTr("Order shopping list also by class")
+                checked: appWindow.setting_orderingByClassEnable
+
+                onClicked: {
+                    appWindow.setting_orderingByClassEnable = !appWindow.setting_orderingByClassEnable
+                    appWindow.setting_sectionHeadersEnabled = appWindow.setting_orderingByClassEnable
+                }
+            }
+
+            TextSwitch {
+                id: sectionHeadingEna
+                text: qsTr("Enable Class Section Headings in the Shoppinglist")
+                checked: appWindow.setting_sectionHeadersEnabled
+                enabled: appWindow.setting_orderingByClassEnable
+                onClicked: {
+                    appWindow.setting_sectionHeadersEnabled = !appWindow.setting_sectionHeadersEnabled
+                }
+            }
+
+//            TextSwitch {
+//                id: shopFilterAutoResetEna
+//                text: qsTr("Enable That Shop Filter Returnss to *")
+//                checked: appWindow.shopFilterAutoResetEnabled
+
+//                onClicked: {
+//                    appWindow.shopFilterAutoResetEnabled
+//                }
+//            }
+            Label {
+                id: versionLabel
+                width: parent.width
+                height: Theme.itemSizeMedium
+                //                truncationMode: TruncationMode.Fade
+                horizontalAlignment: Text.AlignHCenter
+                text: "Version "+versionId
+
             }
 
             Label {
@@ -110,8 +163,17 @@ Page {
                 height: Theme.itemSizeSmall
                 horizontalAlignment: Text.AlignHCenter
 
-                text: "Copyright Antti Ketola 2016"
+                text: "Copyright Antti Ketola 2016-2017"
             }
+            Label {
+                width: parent.width
+                height: Theme.itemSizeSmall
+                horizontalAlignment: Text.AlignHCenter
+
+                text: "License: GPL V3.\nSources in GitHub."
+           }
+
+
             Label {
                 width: parent.width
                 height: Theme.itemSizesmall * 4
@@ -120,33 +182,20 @@ Page {
                 text: "Translations:\n"+
                       "en: Antti Ketola\n"+
                       "fi: Antti Ketola\n"+
+                      "sv: Åke Engelbrektson\n"+
                       "es: Antti Ketola (proofreading needed)\n"+
-                      "de: Antti Ketola (proofreading needed)"
-            }
-            Label {
-                id: versionLabel
-                width: parent.width
-                height: Theme.itemSizeMedium
-                //                truncationMode: TruncationMode.Fade
-                horizontalAlignment: Text.AlignHCenter
-                text: "Version "+"v1.00"
+                      "de: ntp22"
             }
 
             Component.onCompleted: {
-                // This was an attempt to read in Settings from database. There aren't any, currently
-                //                try {
-                //                    var d=DBA.getSetting("general-splash-disable");
-                //                    console.log("SettingsPage.qml: d:"+d);
-                //                    if(d!='true') {
-                //                        console.log("false");
-                //                        splashDisable.checked=false;
-                //                    } else {
-                //                        splashDisable.checked=true;
-                //                    }
-                //                } catch (err) {
-                //                    console.log("splashDisable error="+err);
-                //                }
+                readSettings()
             }
         }
     }
+    onStatusChanged: {
+        if (status==0){
+            console.log("SettingsPage.qml Page.onStatusChanged to:"+status);
+            writeSettings()
+        }
+    }    
 }

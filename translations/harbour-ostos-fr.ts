@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es">
+<TS version="2.1" language="fr">
 <context>
     <name>BackupDialog</name>
     <message>
@@ -59,26 +59,26 @@
     <name>CoverPage</name>
     <message>
         <source>Ostos</source>
-        <translation>Ostos - Carrito</translation>
+        <translation>Panier</translation>
     </message>
 </context>
 <context>
     <name>FilterPage</name>
     <message>
         <source>Accept</source>
-        <translation>Aceptar</translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <source>No shops</source>
-        <translation>Ninguna tienda</translation>
+        <translation>Aucun magasin</translation>
     </message>
     <message>
         <source>Add new shop</source>
-        <translation>Agrega nueva tienda</translation>
+        <translation>Ajouter un nouveau magasin</translation>
     </message>
     <message>
         <source>Undo edits</source>
-        <translation>Cancel</translation>
+        <translation>Annuler les modifications</translation>
     </message>
 </context>
 <context>
@@ -89,133 +89,133 @@
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Aide</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation>Paramètres</translation>
     </message>
     <message>
         <source>Edit shops</source>
-        <translation>Editar tiendas</translation>
+        <translation>Modifier les magasins</translation>
     </message>
     <message>
         <source>Hide bought</source>
-        <translation>Esconder comprados</translation>
+        <translation>Masquer les articles achetés</translation>
     </message>
     <message>
         <source>Search to buy</source>
-        <translation>Buscar y añadir</translation>
+        <translation>Rechercher des articles à acheter</translation>
     </message>
     <message>
         <source>Clearing</source>
-        <translation>Borrando la lista</translation>
+        <translation>Nettoyer</translation>
     </message>
 </context>
 <context>
     <name>ItemAddPage</name>
     <message>
         <source>Search</source>
-        <translation>Busca y agrega</translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
     <name>ItemEditPage</name>
     <message>
         <source>Accept</source>
-        <translation>Aceptar</translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <source>Item Name</source>
-        <translation>Nombre del artículo</translation>
+        <translation>Libellé de l&apos;article</translation>
     </message>
     <message>
         <source>Quantity</source>
-        <translation>Cantidad</translation>
+        <translation>Quantité</translation>
     </message>
     <message>
         <source>Unit</source>
-        <translation>unidad</translation>
+        <translation>Unité</translation>
     </message>
     <message>
         <source>Item Class</source>
-        <translation>Categoría</translation>
+        <translation>Catégorie</translation>
     </message>
     <message>
         <source>Shop</source>
-        <translation>Tienda</translation>
+        <translation>Magasin</translation>
     </message>
     <message>
         <source>Edit shops</source>
-        <translation>Editar tiendas</translation>
+        <translation>Editer les magasins</translation>
     </message>
 </context>
 <context>
     <name>LineButtonsMenu</name>
     <message>
         <source>Hiding Item</source>
-        <translation>Escondiendo article</translation>
+        <translation>Masquer l&apos;article</translation>
     </message>
     <message>
         <source>Deleting Item</source>
-        <translation>Borrando artículo</translation>
+        <translation>Supprimer l&apos;article</translation>
     </message>
 </context>
 <context>
     <name>NewShopDialog</name>
     <message>
         <source>Add new shop</source>
-        <translation>Añadir tienda</translation>
+        <translation>Ajouter un nouveau magasin</translation>
     </message>
     <message>
         <source>Shop name</source>
-        <translation>Nombre de la tienda</translation>
+        <translation>Nom du magasin</translation>
     </message>
 </context>
 <context>
     <name>OldHelpTxt</name>
     <message>
         <source>Help</source>
-        <translation>Instrucciónes</translation>
+        <translation type="unfinished">Aide</translation>
     </message>
     <message>
         <source>Add new items by swithcing to search page on the right (on first item in the pulldown menu.
 </source>
-        <translation>Añade artículos deslizando adelante o por menu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The items have states, indicated by the icon on the left of each shopping list item.
 </source>
-        <translation>Los artículos tienen su estado, que se indica con un ícono a la izquierda.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The state can be toggled like by clicking the state icon on the left.
 </source>
-        <translation>El estado se cambia pulsando el ícono</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The context menu has options to hide, edit, flag</source>
-        <translation>El menu del contexto tiene opciones a esconder, editar, marcar</translation>
-    </message>
-    <message>
-        <source>Add new items by swithcing to search page on the right on first item in the pulldown menu</source>
-        <translation>Se añade nuevos artículos pasando adelante a la página de busqueda, o seleccionando el primer opicion desde el menu de persiana.</translation>
-    </message>
-    <message>
-        <source>The item is listed as to buy</source>
-        <translation>Falta que comprar</translation>
-    </message>
-    <message>
-        <source>The item has been bought</source>
-        <translation>Comprado</translation>
-    </message>
-    <message>
-        <source>The item is listed as flagged (e.g. find later)</source>
-        <translation>Marcado</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source> increase quantity, decrease quantity and delete the item.
 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new items by swithcing to search page on the right on first item in the pulldown menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The item is listed as to buy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The item has been bought</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The item is listed as flagged (e.g. find later)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -223,35 +223,35 @@
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation>Paramètres</translation>
     </message>
     <message>
         <source>List refresh interval</source>
-        <translation>Retraso de actualización de la lista</translation>
+        <translation>Intervalle de rafraichissement de la liste</translation>
     </message>
     <message>
         <source>DELETE DATABASE TABLES</source>
-        <translation>BORRAR TABLAS DE DATABASE</translation>
+        <translation>SUPPRIMER LA BASE DE DONNEES</translation>
     </message>
     <message>
         <source>DELETING ALL DATA</source>
-        <translation>BORRANDO DATOS DE LA APPLICACIÓN</translation>
+        <translation>SUPPRIMER TOUTES LES DONNEES</translation>
     </message>
     <message>
         <source>Enable WWW help</source>
-        <translation>Habilitar ayuda desde el Web</translation>
+        <translation>Activer l&apos;aide sur internet</translation>
     </message>
     <message>
         <source>Enable Help file read from Web and use of Google translator for unknown languages</source>
-        <translation>Habilitar uso del Internet para páginas de instrucciones</translation>
+        <translation>Activer l&apos;aide sur internet et utiliser la traduction Google pour les langues inconnues</translation>
     </message>
     <message>
         <source>Enable Class Section Headings in the Shoppinglist</source>
-        <translation>Separadores de categoría de artículos en lista de la compra</translation>
+        <translation>Activer le regroupement par catégorie dans la liste de courses</translation>
     </message>
     <message>
         <source>Order shopping list also by class</source>
-        <translation>Ordenar la lista también por categoría</translation>
+        <translation>Trier également la liste de courses par catégorie</translation>
     </message>
     <message>
         <source>Export Database as CSV</source>
@@ -262,49 +262,49 @@
     <name>ShopPage</name>
     <message>
         <source>Accept</source>
-        <translation>Aceptar</translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>Volver</translation>
+        <translation>Retour</translation>
     </message>
     <message>
         <source>No items</source>
-        <translation>Sin artículos</translation>
+        <translation>Aucun produit</translation>
     </message>
     <message>
         <source>Add new shop</source>
-        <translation>Añadir tienda</translation>
+        <translation>Ajouter un nouveau magasin</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Editar</translation>
+        <translation>Editer</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
     <name>Splash</name>
     <message>
         <source>Shopping list</source>
-        <translation>lista de compras</translation>
+        <translation>Liste de courses</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Continuar</translation>
+        <translation>Continuer</translation>
     </message>
     <message>
         <source>Ostos</source>
-        <translation>Ostos - Carrito</translation>
+        <translation>Liste de courses</translation>
     </message>
 </context>
 <context>
     <name>harbour-ostos</name>
     <message>
         <source>Updating</source>
-        <translation>Actualizando</translation>
+        <translation>Mise à jour</translation>
     </message>
     <message>
         <source></source>

@@ -14,11 +14,12 @@ Dialog {
     allowedOrientations: Orientation.All
 
     property int rowid_in_db: -1
+    property string name_in: "not set"
 
-    acceptDestination: Qt.resolvedUrl("FirstPage.qml")
-    acceptDestinationAction:  PageStackAction.Push
+//    acceptDestination: pageStack.find(function(page) {return page.pagemark === "firstPage" })
+//    acceptDestinationAction: PageStackAction.Pop
     backNavigation: true
-    forwardNavigation: true
+    forwardNavigation: false
 
     SilicaFlickable {
         id: itemeditflick
@@ -32,21 +33,53 @@ Dialog {
             anchors { left: parent.left; right: parent.right }
             spacing: Theme.paddingSmall
 
-            DialogHeader {
-                acceptText: {
-                    title: qsTr("Accept")
+            PageHeader {
+                id: itemEditPageHeader
+
+                Button {
+                    anchors.right: parent.right
+                    text: qsTr("Accept")
+                    y: Theme.paddingLarge
+
+                    onClicked: {
+                        // THIS IS NOW ACCEPT
+                        var selectedShopToDB = editshopselector.getValue()
+
+                        console.debug("ItemEditPage.onClicked-ItemEditPage. ci="+currIndex+" item name="+itemname.text)
+                        var rowid = DBA.findItemByName(null,itemname.text)
+                        //        console.debug("Found in DB rowid:"+rowid+" for name"+itemname.text)
+
+                        // console.debug("editshopselector.value="+editshopselector.value
+                        //              +" .getValueForDB()="+editshopselector.getValue())
+                        // console.debug("Row to db: "+rowid_in_db+":"+itemname.text + ">" + itemqty.text  + ">" + itemunit.text + ">" + itemclass.text + ">" + selectedShopToDB)
+                        if (rowid) {
+                            // console.log("...updating existent ci="+currIndex+" itemshop="+selectedShopToDB)
+                            DBA.updateItemState(rowid_in_db,"BUY")
+                            DBA.updateItemInShoppingList(rowid,itemname.text, itemqty.text, itemunit.text, itemclass.text, selectedShopToDB); //shop.currentname?
+                            DBA.updateItemState(rowid,"BUY")
+                            DBA.updateShoppinListNextSeq(rowid)
+                        } else { // adding new
+                            //            console.log("...adding new ci="+ci)
+                            DBA.insertItemToShoppingList("BUY",itemname.text,itemqty.text, itemunit.text, itemclass.text, selectedShopToDB)
+                        }
+                        currShop=wildcard
+                        shopFilter=[wildcard]
+                        filterdesc=wildcard
+                        pageStack.clear()
+                        pageStack.push(Qt.resolvedUrl("FirstPage.qml"),{})
+                        console.log("pageStack.depth="+pageStack.depth)
+                    }
                 }
-                cancelText: {
-                    title: qsTr("Cancel")
-                }
+
             }
+
             TextField {
                 id: itemname
                 anchors { left: parent.left; right: parent.right }
                 focus: true; label: qsTr("Item Name"); placeholderText: label
                 EnterKey.enabled: text || inputMethodComposing
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
-                EnterKey.onClicked: itemname.focus = true
+                EnterKey.onClicked: itemqty.focus = true
             }
 
 
@@ -56,7 +89,7 @@ Dialog {
                 label: qsTr("Quantity"); placeholderText: label
                 EnterKey.enabled: text || inputMethodComposing
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
-                EnterKey.onClicked: qty.focus = true
+                EnterKey.onClicked: itemunit.focus = true
             }
 
             TextField {
@@ -66,6 +99,8 @@ Dialog {
                 font.capitalization: Font.MixedCase
                 EnterKey.enabled: text || inputMethodComposing
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: itemclass.focus = true;
+                inputMethodHints: Qt.ImhNoAutoUppercase
             }
 
             TextField {
@@ -74,7 +109,7 @@ Dialog {
                 label: qsTr("Item Class"); placeholderText: label
                 EnterKey.enabled: text || inputMethodComposing
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
-                EnterKey.onClicked: itemclass.focus = true
+                EnterKey.onClicked: editshopselector.focus = true
             }
 
             ShopSelector {
@@ -97,7 +132,8 @@ Dialog {
     }
     //"istat":"BUY", "iname":itemname.text, "iqty":itemqty.text, "iunit":itemunit.value, "iclass":itemclass.value, "rowid":rowid, "ishop":itemshop.value
     onOpened:{
-        // console.log("ItemEditPage onOpened: index=" + currIndex);
+        console.log("ItemEditPage onOpened: index=" + currIndex);
+        console.log("name_in:"+name_in)
         itemname.text=shoppingListModel.get(currIndex).iname;
         itemqty.text=shoppingListModel.get(currIndex).iqty;
         itemunit.text=shoppingListModel.get(currIndex).iunit;
@@ -108,26 +144,35 @@ Dialog {
 
     }
 
-    onAccepted: {
-        var selectedShopToDB = editshopselector.getValue()
+//    onDone: {
+//        console.log("Dialog.onDone")
+//        console.log("pageStack.depth="+pageStack.depth)
+//    }
 
-        // console.debug("ItemEditPage.onAccepted-ItemEditPage. ci="+currIndex)
-        var rowid = DBA.findItemByName(null,itemname.text)
-        //        console.debug("Found in DB rowid:"+rowid+" for name"+itemname.text)
+//    onAccepted: {
+//        console.log("Dialog.onAccepted")
 
-        // console.debug("editshopselector.value="+editshopselector.value
-        //              +" .getValueForDB()="+editshopselector.getValue())
-        // console.debug("Row to db: "+rowid_in_db+":"+itemname.text + ">" + itemqty.text  + ">" + itemunit.text + ">" + itemclass.text + ">" + selectedShopToDB)
-        if (rowid) {
-            // console.log("...updating existent ci="+currIndex+" itemshop="+selectedShopToDB)
-            DBA.updateItemState(rowid_in_db,"BUY")
-            DBA.updateItemInShoppingList(rowid,itemname.text, itemqty.text, itemunit.text, itemclass.text, selectedShopToDB); //shop.currentname?
-            DBA.updateItemState(rowid,"BUY")
-            DBA.updateShoppinListNextSeq(rowid)
-        } else { // adding new
-            //            console.log("...adding new ci="+ci)
-            DBA.insertItemToShoppingList("BUY",itemname.text,itemqty.text, itemunit.text, itemclass.text, selectedShopToDB)
-        }
-        currShop=wildcard
-    }
+//        console.log("pageStack.depth="+pageStack.depth)
+//                var selectedShopToDB = editshopselector.getValue()
+
+//                console.debug("ItemEditPage.onAccepted-ItemEditPage. ci="+currIndex+" item name="+itemname.text)
+//                var rowid = DBA.findItemByName(null,itemname.text)
+//                //        console.debug("Found in DB rowid:"+rowid+" for name"+itemname.text)
+
+//                // console.debug("editshopselector.value="+editshopselector.value
+//                //              +" .getValueForDB()="+editshopselector.getValue())
+//                // console.debug("Row to db: "+rowid_in_db+":"+itemname.text + ">" + itemqty.text  + ">" + itemunit.text + ">" + itemclass.text + ">" + selectedShopToDB)
+//                if (rowid) {
+//                    // console.log("...updating existent ci="+currIndex+" itemshop="+selectedShopToDB)
+//                    DBA.updateItemState(rowid_in_db,"BUY")
+//                    DBA.updateItemInShoppingList(rowid,itemname.text, itemqty.text, itemunit.text, itemclass.text, selectedShopToDB); //shop.currentname?
+//                    DBA.updateItemState(rowid,"BUY")
+//                    DBA.updateShoppinListNextSeq(rowid)
+//                } else { // adding new
+//                    //            console.log("...adding new ci="+ci)
+//                    DBA.insertItemToShoppingList("BUY",itemname.text,itemqty.text, itemunit.text, itemclass.text, selectedShopToDB)
+//                }
+//                currShop=wildcard
+//    }
+
 }

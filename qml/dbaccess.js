@@ -3,6 +3,12 @@
 /* External variable references to be noted:
  * Qt Quick: ListModel shopListModel, declared in ApplicationWindow page
  */
+/**
+ * FYI:
+ * On the device, the database is located in
+ *
+ * home nemo .local share harbour-ostos harbour-ostos/QML/OfflineStorage/Databases/<somelonghexnumber>.sqlite
+ */
 
 var unknownShop = "?"
 
@@ -13,6 +19,7 @@ function openDB() {
     return LS.LocalStorage.openDatabaseSync("ShopListDB", "1.1", "Shopping list database", 100000);
 }
 
+var NO_SETTING = new String("____NO_SETTING____");
 
 /**
  * Escapes string so that special characters are preceded by backslash.
@@ -24,9 +31,10 @@ function escapeForSqlite(s){
     if (!s) return ""
     if (s==unknownShop) return unknownShop
     var t=s.toString()
-    var regex = /['".*+?^${}()|[\]\\]/g
+    var regex = /["'.*+?^${}()|[\]\\]/g
     var sub = '\\$&'
-    return t.replace(regex, sub)
+    t=t.replace(regex, sub)
+    return t
 }
 
 /**
@@ -141,6 +149,77 @@ function readShoppingListExState(lm,excluded_state) {
 
 }
 
+/** read shopping list as filtered by filter array */
+
+function readShoppingListFiltered(lm,excluded_state,filterarray,classordering) {// shoppingListModel,"HIDE",shopFilter
+    //    console.debug("ostos/dbaccess.js: readTheListExState:"+excluded_state);
+    excluded_state=escapeForSqlite(excluded_state)
+    var shopfilterstring = buildshopfilter(filterarray)
+    var db = openDB()
+    if(!db) { console.error("readTheListExState:db open failed"); return; }
+    var querystring = 'SELECT rowid, * FROM shoppinglist WHERE NOT istat=\"'+excluded_state+'\" '+shopfilterstring+' ORDER BY istat ASC,'
+    if (classordering) querystring += ' iclass ASC,'
+    querystring += ' seq DESC, iname ASC  ;'
+    //console.debug("querystring="+querystring)
+    var rs
+    try {
+        db.transaction( function(tx) {
+            // Now ordering initial list so that (BUY before FIND before GOT) and the newest (biggest rowid) first
+            rs = tx.executeSql(querystring)
+        })
+    } catch (sqlErr) {
+        console.log(sqlErr)
+        return "SQL:"+sqlErr
+    }
+    var irid = 0
+    var istat = ""
+    var iname = ""
+    var iqty = ""
+    var iunit = ""
+    var iclass = ""
+    var ishop = ""
+    console.log("readShoppingListFiltered, number of rows="+rs.rows.length)
+    for(var i = 0; i < rs.rows.length; i++) {
+        irid = rs.rows.item(i).rowid
+        istat = rs.rows.item(i).istat
+        iname = unescapeFromSqlite(rs.rows.item(i).iname)
+        iqty = unescapeFromSqlite(rs.rows.item(i).iqty)
+        iclass = unescapeFromSqlite(rs.rows.item(i).iclass)
+        iunit = unescapeFromSqlite(rs.rows.item(i).iunit)
+        ishop = unescapeFromSqlite(rs.rows.item(i).ishop)
+        //console.debug("DBREAD-S:"+irid+"/"+istat+"/"+iname+"/"+iqty+"/"+iclass+"/"+iunit+"/"+ishop)
+        lm.append({ //rs.rows.item(i).
+                      "istat":istat,
+                      "iname":iname,
+                      "iqty":iqty,
+                      "iunit":iunit,
+                      "ishop":ishop,
+                      "iclass":iclass,
+                      "rowid":irid
+                  });
+    }
+
+}
+
+function buildshopfilter(filterarray) {
+    if (filterarray.length<1 || filterarray[0]==="*") return ""
+    var fieldname="ishop="
+    var space=" "
+    var oor =" OR "
+    var fstr = " AND "
+    var ss
+    for (var i=0;i<filterarray.length;i++) {
+        ss = filterarray[i]
+        fstr += space + fieldname + dq(ss)
+        if (i<(filterarray.length-1)) {
+            fstr += oor
+        }
+    }
+    fstr += space
+    //console.log("<fstr=>"+fstr+"<")
+    return fstr
+}
+
 /*
  * Reads all shopping list items and writes them to shopping list model
  * but only those which are in mystate (e.g. "BUY")
@@ -193,15 +272,16 @@ function readShoppingListByState(lm, mystate) {
  */
 function readShoppingListByShopExState(lm,shopname,excluded_state) {
     //    console.debug("ostos/dbaccess.js: readShoppingListByShop:"+shopname+", ex:"+excluded_state);
-    shopname=escapeForSqlite(shopname)
-    excluded_state=escapeForSqlite(excluded_state)
+    shopname=dq(escapeForSqlite(shopname))
+    excluded_state=dq(escapeForSqlite(excluded_state))
     var db = openDB()
     if(!db) { console.error("readAllByShop:db open failed"); return; }
     var rs
     try {
         db.transaction( function(tx) {
             // Now ordering initial list so that (BUY before FIND before GOT) and the newest (biggest rowid) first
-            var querystring = "SELECT rowid, * FROM shoppinglist WHERE ishop='"+shopname+"' AND NOT istat='"+excluded_state+"' ORDER BY istat ASC, seq DESC, iname ASC;"
+            var querystring = "SELECT rowid, * FROM shoppinglist WHERE ishop="+shopname+" AND NOT istat="+excluded_state+" ORDER BY istat ASC, seq DESC, iname ASC;"
+            //print (querystring)
             rs = tx.executeSql(querystring)
         })
     } catch (sqlErr) {
@@ -544,13 +624,13 @@ function findItemByName(lm,itemname) {
 function addShop(sname) {
     sname=escapeForSqlite(sname);
 
-    // console.debug("ostos/dbaccess.js: Adding shop to db:"+sname);
+    console.debug("ostos/dbaccess.js: Adding shop to db:"+sname);
     var db = openDB();
     if(!db) { console.error("ostos/dbaccess.js: addShop:db open failed"); return; }
 
     var lastrow=0;
     var rid;
-    try {        
+    try {
         db.transaction(function(tx) {
             tx.executeSql("INSERT INTO shops (name,hits,seq,control) VALUES (?,?,?,?);",
                           [sname,0,0,0]);
@@ -631,6 +711,7 @@ function shopRefCount(shopname) {
     return count
 }
 
+// dq for Double Quote
 
 function dq(str) {
     return '"' + str + '"';
@@ -638,27 +719,32 @@ function dq(str) {
 
 /*
  * Returns shop list ordered by [usage] hits as array
+ * Reads shops as array, and apprends to given listmodel
  */
 function repopulateShopList(lm /* ListModel */) {
     //    console.debug("ostos/dbaccess.js: repopulateShopList")
-    var shops = getAllShopsByHits();
+    var shops = getAllShopsByHits()
+    var shoparr
     try {
-        var shoparr=JSON.parse(shops);
+        shoparr=JSON.parse(shops)
     } catch (err) {
-        console.error("Problem parsing '"+shoparr+" err:"+err);
+        console.error("Tried to parse \'"+shops+"\' err:"+err)
         return;
     }
 
     lm.clear();
-    for(var i=0; i<shoparr.length; i++) {        
+    for(var i=0; i<shoparr.length; i++) {
         //        console.debug("ostos/dbaccess.js: shoparr ["+i+"] ="+shoparr[i]+" length="+shoparr.length);
-        lm.append({"name":shoparr[i],"edittext":shoparr[i]});
+        lm.append({"checked":false,"name":shoparr[i],"edittext":shoparr[i]});
     }
 }
 
-/****************************************
-  Functions for usage statistics of shops
-  */
+/********************************************************
+ * Gets all shop names ordered by usag statistics of shops
+ * any usage increments reference count
+ *
+ * Returns array like ["shop1","shop2","shop3"]
+ */
 
 function getAllShopsByHits() {
     var db = openDB();
@@ -674,6 +760,42 @@ function getAllShopsByHits() {
         return "ERROR";
     }
     var arr = "";
+    //    console.debug("ostos/dbaccess.js: rs.rows.length:"+rs.rows.length)
+    if(rs.rows.length<1) {
+        return "[NULL]";
+    }
+    arr = "[";
+    var str = rs.rows.item(0).name
+    str = unescapeFromSqlite(str)
+    arr += dq(str);
+    for(var i = 1; i < rs.rows.length; i++) {
+        arr += ",";
+        str = rs.rows.item(i).name;
+        str = unescapeFromSqlite(str);
+        arr += dq(str);
+    }
+    arr += "]"
+    //    console.debug(arr);
+    return arr;
+}
+
+/**
+ * fills a ListModel
+ */
+function getAllShopData(lm) {
+    var db = openDB();
+
+    if(!db) { console.error("ostos/dbaccess.js: getAllShopssByHits:db open failed"); return; }
+    var rs;
+    try {
+        db.transaction(function(tx) {
+            rs = tx.executeSql('SELECT * FROM shops ORDER BY hits DESC;');
+        });
+    } catch (sqlErr) {
+        console.error("ostos/dbaccess.js: getAllShopsByHits log squirrel:"+sqlErr);
+        return "ERROR";
+    }
+    var obj = "";
     //    console.debug("ostos/dbaccess.js: rs.rows.length:"+rs.rows.length)
     if(rs.rows.length<1) {
         return "[NULL]";
@@ -800,15 +922,16 @@ function getSetting(setting) {
         });
     } catch (sqlErr) {
         console.debug("ostos/dbaccess.js: getSetting: log squirrel: " + sqlErr);
-        return ""; // "ERROR"
+        return NO_SETTING; // "ERROR"
     }
 
     if(rs.rows.length>0) {
         var v=rs.rows.item(0).value;
-        console.debug("ostos/dbaccess.js: getSetting: setting,value: " + setting + ","+v);
+        v = unescapeFromSqlite(v);
+        //console.debug("ostos/dbaccess.js: getSetting: setting,value: " + setting + ","+v);
         return v;
     } else {
-        return "";
+        return NO_SETTING;
     }
 }
 
